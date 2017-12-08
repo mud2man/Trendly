@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Hello, world!</title>
+    <title>Trendly</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -31,10 +31,12 @@
           </div>
           <br />
           <br />
-          <form>
+          <form action="results.html" class="text-center">
             <div class="form-group">
-              <input type="text" class="form-control text-center" id="queryInput"  placeholder="What would you like to know about?">
+              <input type="text" class="form-control text-center" id="queryInput"  name='q' placeholder="What would you like to know about?">
             </div>
+            <br />
+            <button type="submit" class="btn btn-light btn-lg">Analyze</button>
           </form>
           <br />
           <div id='trends' class='row'>
@@ -90,7 +92,7 @@
               var trends = reply[0]["trends"];
               for (var i = 0; i < 10; ++i) {
                 e = trends[i];
-                var trend = '<div class="col-lg-6 text-center regular-font trend-row">' + e["name"] + '</div>';
+                var trend = '<div class="col-lg-6 text-center regular-font trend-row"><a href="results.html?q=' + encodeURIComponent(e["name"]) + '"">' + e["name"] + '</a></div>';
                 $('#trends-loaded').append(trend);
               }
               $('#trends-loading').fadeOut(function() {
@@ -104,12 +106,6 @@
           }
       );
     </script>
-
-    <!-- Particles -->
-    <script type="text/javascript" src="particles.min.js"></script>
-
-    
-
 
   </body>
 </html>

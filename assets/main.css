@@ -1,7 +1,11 @@
 body {
-  margin-top: 3em;
+  margin-top: 1em;
   background-color: #70f;
   font-family: 'Bree Serif', serif;
+}
+
+.brand {
+  margin-top: 1em;
 }
 
 .title {
@@ -33,6 +37,11 @@ body {
   font-size: 2em;
 }
 
+#queryInput-results {
+  height: 2.5em;
+  font-size: 1.5em;
+}
+
 .form-control {
   border-radius: 0.5em;
 }
@@ -42,8 +51,26 @@ body {
   box-shadow: 0px 0px 4px 5px #f9953e;
 }
 
+a {
+  color: #f9953e;
+}
+
+a:hover {
+  color: #00FF00;
+}
+
 #trends {
-  
+  margin-top: 1em;
+}
+
+#trends a {
+  color: white;
+  text-decoration: underline;
+}
+
+#trends a:hover {
+  color: #f9953e;
+  text-decoration: underline;
 }
 
 #trends-label {
@@ -58,3 +85,8 @@ body {
   opacity: 0.0;
 }
 
+
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  background-color: #f9953e;
+}

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Trendly</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/main.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Bree+Serif|Pacifico" rel="stylesheet">
+
+    <!-- Codebird -->
+    <script type="text/javascript" src="assets/codebird.js"></script>
+  </head>
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-2 col-md-12">
+          <div class='text-center title-small brand'>
+            Trendly
+          </div>
+        </div>
+        <div class='col-lg-10 col-md-12'>
+          <br />
+          <form action="results.html">
+            <div class="form-group">
+              <input type="text" class="form-control text-center" id="queryInput-results"  name='q' placeholder="What would you like to know about?">
+            </div>
+          </form>
+        </div>
+      </div>
+      <br />
+      <nav class="nav nav-pills nav-fill">
+            <a class="nav-item nav-link active" href="#">Sentiment</a>
+            <a class="nav-item nav-link" href="#">Geography</a>
+            <a class="nav-item nav-link" href="#">Charts</a>
+            <a class="nav-item nav-link" href="#">Something Else</a>
+          </nav>
+      <div class="row">
+
+        <div id="tweets">
+          <!-- tweets go here -->
+        </div>
+      </div>
+    </div>
+
+    
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+    <!-- Twitter stuff -->
+    <script sync src="https://platform.twitter.com/widgets.js"></script>
+
+
+    <!-- More Codebird -->
+    <script type="text/javascript">
+      // https://www.sitepoint.com/url-parameters-jquery/
+      $.urlParam = function(name){
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        return results[1] || 0;
+      }
+      var query = $.urlParam("q");
+      $('#queryInput-results').val(decodeURIComponent($.urlParam("q").replace(/\+/, " ")));
+      var cb = new Codebird;
+      cb.setConsumerKey("nDuDRuXVkv3N3GrJiTXm5cXtH", "nnqF5HGuyOURRe2fkcUZpVMTwdGS5xecfQIZvDr5GM2is8PsPr");
+      var to_get = [];
+      var params = {
+        q: query,
+        geocode: "40.808127,-73.965864,5mi",
+        count: 100,
+        lang: 'en'
+      };
+      cb.__call(
+          "search_tweets",
+          params,
+          function (reply) {
+            console.log(reply);
+            reply["statuses"].forEach(function(e) {
+              to_get.push({id: e["id_str"], user: e["user"]["screen_name"]});
+            });
+            for (var i = 0; i < to_get.length; ++i) {
+              e = to_get[i];
+              $('#tweets').append('<div id="tweet' + e['id'] + '"></div>');
+              var tweet = document.getElementById("tweet" + e['id']);
+              var id = e['id'];
+
+              twttr.widgets.createTweet(
+                id, tweet, 
+                {
+                  conversation : 'none',    // or all
+                  cards        : 'hidden',  // or visible 
+                  linkColor:     '#f9953e',
+                  theme        : 'light',    // or dark
+                  width: 400
+                })
+              .then (function (el) {
+                el.contentDocument.querySelector(".footer").style.display = "none";
+              });
+            }
+          }
+      );
+      
+
+
+</script>
+
+  </body>
+</html>

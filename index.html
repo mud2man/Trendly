@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Hello, world!</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/main.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Bree+Serif|Pacifico" rel="stylesheet">
+
+    <!-- Codebird -->
+    <script type="text/javascript" src="assets/codebird.js"></script>
+  </head>
+  <body>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          <div class='text-center title'>
+            Trendly
+          </div>
+          <div class='text-center title-small'>
+            Twitter analytics – the smart way.
+          </div>
+          <br />
+          <br />
+          <form>
+            <div class="form-group">
+              <input type="text" class="form-control text-center" id="queryInput"  placeholder="What would you like to know about?">
+            </div>
+          </form>
+          <br />
+          <div id='trends' class='row'>
+            <div id='trends-label' class='regular-font text-center col-lg-12'>
+              Top Trends
+            </div>
+            <div id='trends-loading' class='regular-font text-center col-lg-12'>
+              Loading...
+            </div>
+            <div class='col-lg-12 col-sm-12'>
+              <div id='trends-loaded' class='row regular-font text-center'>
+                <!-- extra stuff goes here -->
+              </div>
+            </div>  
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+    <!-- More Codebird -->
+    <script type="text/javascript">
+      var cb = new Codebird;
+      cb.setConsumerKey("nDuDRuXVkv3N3GrJiTXm5cXtH", "nnqF5HGuyOURRe2fkcUZpVMTwdGS5xecfQIZvDr5GM2is8PsPr");
+      var params = {
+        q: "NYC geocode:37.781157,-122.398720,1mi"
+      };
+      cb.__call(
+          "search_tweets",
+          params,
+          function (reply) {
+              console.log(reply);
+          }
+      );
+
+      var params = {
+        id: 23424977
+      };
+      cb.__call(
+          "trends/place",
+          params,
+          function (reply) {
+              var trends = reply[0]["trends"];
+              for (var i = 0; i < 10; ++i) {
+                e = trends[i];
+                var trend = '<div class="col-lg-6 text-center regular-font trend-row">' + e["name"] + '</div>';
+                $('#trends-loaded').append(trend);
+              }
+              $('#trends-loading').fadeOut(function() {
+                $("#trends-loaded").animate({
+                  opacity: 1.0
+                }, 1000, "linear", function() {
+                  // callback
+                });
+              });
+              
+          }
+      );
+    </script>
+
+    <!-- Particles -->
+    <script type="text/javascript" src="particles.min.js"></script>
+
+    
+
+
+  </body>
+</html>

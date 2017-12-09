@@ -38,11 +38,11 @@
       </div>
       <br />
       <nav class="nav nav-pills nav-fill">
-            <a class="nav-item nav-link active" href="#">Sentiment</a>
-            <a class="nav-item nav-link" href="#">Geography</a>
-            <a class="nav-item nav-link" href="#">Charts</a>
-            <a class="nav-item nav-link" href="#">Something Else</a>
-          </nav>
+        <a class="nav-item nav-link active" href="#">Sentiment</a>
+        <a class="nav-item nav-link" href="#">Geography</a>
+        <a class="nav-item nav-link" href="#">Charts</a>
+        <a class="nav-item nav-link" href="#">Something Else</a>
+      </nav>
       <div class="row">
 
         <div id="tweets">
@@ -76,7 +76,6 @@
       $('#queryInput-results').val(decodeURIComponent($.urlParam("q").replace(/\+/, " ")));
       var cb = new Codebird;
       cb.setConsumerKey("nDuDRuXVkv3N3GrJiTXm5cXtH", "nnqF5HGuyOURRe2fkcUZpVMTwdGS5xecfQIZvDr5GM2is8PsPr");
-      var to_get = [];
       var params = {
         q: query,
         geocode: "40.808127,-73.965864,5mi",
@@ -88,28 +87,42 @@
           params,
           function (reply) {
             console.log(reply);
+            var to_get = [];
+            var sentiment_params = {};
+            sentiment_params["lang"] = "en";
+            sentiment_params["data"] = [];
             reply["statuses"].forEach(function(e) {
               to_get.push({id: e["id_str"], user: e["user"]["screen_name"]});
+              sentiment_params["data"].push({id: e["id_str"], text: e["text"], query: decodeURIComponent(query.replace(/\+/, " "))});
             });
-            for (var i = 0; i < to_get.length; ++i) {
-              e = to_get[i];
-              $('#tweets').append('<div id="tweet' + e['id'] + '"></div>');
-              var tweet = document.getElementById("tweet" + e['id']);
-              var id = e['id'];
+            // for (var i = 0; i < to_get.length; ++i) {
+            //   e = to_get[i];
+            //   $('#tweets').append('<div id="tweet' + e['id'] + '"></div>');
+            //   var tweet = document.getElementById("tweet" + e['id']);
+            //   var id = e['id'];
 
-              twttr.widgets.createTweet(
-                id, tweet, 
-                {
-                  conversation : 'none',    // or all
-                  cards        : 'hidden',  // or visible 
-                  linkColor:     '#f9953e',
-                  theme        : 'light',    // or dark
-                  width: 400
-                })
-              .then (function (el) {
-                el.contentDocument.querySelector(".footer").style.display = "none";
-              });
-            }
+            //   twttr.widgets.createTweet(
+            //     id, tweet, 
+            //     {
+            //       conversation : 'none',    // or all
+            //       cards        : 'hidden',  // or visible 
+            //       linkColor:     '#f9953e',
+            //       theme        : 'light',    // or dark
+            //       width: 400
+            //     })
+            //   .then (function (el) {
+            //     //
+            //   });
+            // }
+            $.ajax({
+              url: 'http://www.sentiment140.com/api/bulkClassifyJson?appid=alekrzieba@gmail.com',
+              type: 'post',
+              crossDomain: true,
+              data: sentiment_params,
+              success: function(reply2){
+                console.log(reply2);
+              }
+            });
           }
       );
       

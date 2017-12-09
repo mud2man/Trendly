@@ -85,8 +85,27 @@ a:hover {
   opacity: 0.0;
 }
 
-
-
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
   background-color: #f9953e;
+}
+
+#results-content {
+  display: none;
+}
+
+/* https://www.w3schools.com/howto/howto_css_loader.asp */
+#loader {
+    border: 30px solid #f3f3f3; /* Light grey */
+    border-top: 30px solid #f9953e;
+    border-bottom: 30px solid #f9953e;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

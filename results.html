@@ -30,29 +30,40 @@
         <div class='col-lg-10 col-md-12'>
           <br />
           <form action="results.html">
-            <div class="form-group">
+            <div class="input-group">
               <input type="text" class="form-control text-center" id="queryInput-results"  name='q' placeholder="What would you like to know about?">
             </div>
           </form>
         </div>
       </div>
       <br />
-      <nav class="nav nav-pills nav-fill">
-        <a class="nav-item nav-link active" href="#">Sentiment</a>
-        <a class="nav-item nav-link" href="#">Geography</a>
-        <a class="nav-item nav-link" href="#">Charts</a>
-        <a class="nav-item nav-link" href="#">Something Else</a>
-      </nav>
-      <div class="row">
-        <div id="tweets">
-          <!-- tweets go here -->
+      <div id="results-loading" class='regular-font text-center'>
+        <br />
+        Analyzing...
+        <br />
+        <br />
+        <div id="loader">
+
         </div>
-        <div class="col-md-3">
-        </div>
-        <div class="col-md-6">
-        <canvas id="myChart" width="400" height="400"></canvas>
-        </div>
-        <div class="col-md-3">
+      </div>
+      <div id="results-content">
+        <nav class="nav nav-pills nav-fill">
+          <a id="sentiment-pill" class="nav-item nav-link active" href="#">Sentiment</a>
+          <a id="geography-pill" class="nav-item nav-link" href="#">Geography</a>
+          <a id="charts-pill" class="nav-item nav-link" href="#">Charts</a>
+          <a id="other-pill" class="nav-item nav-link" href="#">Something Else</a>
+        </nav>
+        <div id="sentiment" class="row">
+          <div id="tweets">
+            <!-- tweets go here -->
+          </div>
+          <div class="col-md-3">
+          </div>
+          <div class="col-md-6">
+          <canvas id="myChart" width="400" height="400"></canvas>
+          </div>
+          <div class="col-md-3">
+          </div>
         </div>
       </div>
     </div>
@@ -71,6 +82,7 @@
     <script sync src="https://platform.twitter.com/widgets.js"></script>
 
     <script sync src="assets/chart.min.js"></script>
+    <script sync src="assets/results-pills.js"></script>
 
 
     <!-- More Codebird -->
@@ -126,6 +138,8 @@
             //     //
             //   });
             // }
+            
+            // Sentiment
             $.ajax({
               url: 'https://cors-anywhere.herokuapp.com/https://eastus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment',
               method: 'post',
@@ -139,11 +153,13 @@
                 var num_pos = 0;
                 var num_neg = 0;
                 var num_neutral = 0;
+                var score = 0;
                 console.log(reply2)
                 reply2['documents'].forEach(function(e) {
-                  if (e['score'] < 0.4) {
+                  score += e['score'];
+                  if (e['score'] < 0.5) {
                     num_neg += 1;
-                  } else if (e['score'] >= 0.4 && e['score'] <= 0.6) {
+                  } else if (e['score'] == 0.5) {
                     num_neutral += 1;
                   } else {
                     num_pos += 1;
@@ -167,7 +183,10 @@
                 var myPieChart = new Chart(ctx,{
                   type: 'doughnut',
                   data: data,
-                  options: {title: {display: true, text: "Analysis Results", fontSize: 32, fontColor: '#FFF', fontFamily: 'Bree Serif'}, legend: {labels: {fontColor: '#FFF', fontFamily: 'Bree Serif', fontSize: 16}}}
+                  options: {layout: {padding: 0}, title: {display: true, text: "Analysis Results", fontSize: 32, fontColor: '#FFF', fontFamily: 'Bree Serif', padding: 20}, legend: {labels: {fontColor: '#FFF', fontFamily: 'Bree Serif', fontSize: 16}}}
+                });
+                $("#results-loading").fadeOut(function() {
+                  $("#results-content").fadeIn();
                 });
               }});
           }

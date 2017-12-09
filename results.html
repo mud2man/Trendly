@@ -114,14 +114,29 @@
             //     //
             //   });
             // }
-            $.ajax({
-              url: 'http://www.sentiment140.com/api/bulkClassifyJson?appid=alekrzieba@gmail.com',
-              type: 'post',
-              crossDomain: true,
-              data: sentiment_params,
-              success: function(reply2){
-                console.log(reply2);
+            var cors_api_url = 'http://cors-anywhere.herokuapp.com/';
+            function doCORSRequest(options, printResult) {
+              var x = new XMLHttpRequest();
+              x.open(options.method, cors_api_url + options.url);
+              x.onload = x.onerror = function() {
+                printResult(
+                  options.method + ' ' + options.url + '\n' +
+                  x.status + ' ' + x.statusText + '\n\n' +
+                  (x.responseText || '')
+                );
+              };
+              if (/^POST/i.test(options.method)) {
+                x.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
               }
+              x.send(options.data);
+            }
+
+            doCORSRequest({
+              method: 'POST',
+              url: 'http://www.sentiment140.com/api/bulkClassifyJson?appid=alekrzieba@gmail.com',
+              data: sentiment_params
+            }, function printResult(result) {
+              console.log(result);
             });
           }
       );

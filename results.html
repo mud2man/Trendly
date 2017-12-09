@@ -44,9 +44,15 @@
         <a class="nav-item nav-link" href="#">Something Else</a>
       </nav>
       <div class="row">
-
         <div id="tweets">
           <!-- tweets go here -->
+        </div>
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+        <canvas id="myChart" width="400" height="400"></canvas>
+        </div>
+        <div class="col-md-3">
         </div>
       </div>
     </div>
@@ -64,6 +70,8 @@
     <!-- Twitter stuff -->
     <script sync src="https://platform.twitter.com/widgets.js"></script>
 
+    <script sync src="assets/chart.min.js"></script>
+
 
     <!-- More Codebird -->
     <script type="text/javascript">
@@ -78,9 +86,11 @@
       cb.setConsumerKey("nDuDRuXVkv3N3GrJiTXm5cXtH", "nnqF5HGuyOURRe2fkcUZpVMTwdGS5xecfQIZvDr5GM2is8PsPr");
       var params = {
         q: query,
-        geocode: "40.808127,-73.965864,5mi",
+        //geocode: "40.808127,-73.965864,5mi",
         count: 100,
-        lang: 'en'
+        lang: 'en',
+        tweet_mode: 'extended',
+        result_type: 'mixed'
       };
       cb.__call(
           "search_tweets",
@@ -89,11 +99,13 @@
             console.log(reply);
             var to_get = [];
             var sentiment_params = {};
-            sentiment_params["lang"] = "en";
-            sentiment_params["data"] = [];
+            sentiment_params["documents"] = [];
             reply["statuses"].forEach(function(e) {
               to_get.push({id: e["id_str"], user: e["user"]["screen_name"]});
-              sentiment_params["data"].push({id: e["id_str"], text: e["text"], query: decodeURIComponent(query.replace(/\+/, " "))});
+              sentiment_params["documents"].push({id: e["id_str"], text: e["full_text"],
+              language: "en" 
+              //,query: decodeURIComponent(query.replace(/\+/, " "))
+            });
             });
             // for (var i = 0; i < to_get.length; ++i) {
             //   e = to_get[i];
@@ -114,30 +126,50 @@
             //     //
             //   });
             // }
-            var cors_api_url = 'http://cors-anywhere.herokuapp.com/';
-            function doCORSRequest(options, printResult) {
-              var x = new XMLHttpRequest();
-              x.open(options.method, cors_api_url + options.url);
-              x.onload = x.onerror = function() {
-                printResult(
-                  options.method + ' ' + options.url + '\n' +
-                  x.status + ' ' + x.statusText + '\n\n' +
-                  (x.responseText || '')
-                );
-              };
-              if (/^POST/i.test(options.method)) {
-                x.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-              }
-              x.send(options.data);
-            }
+            $.ajax({
+              url: 'http://cors-anywhere.herokuapp.com/https://eastus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment',
+              method: 'post',
+              data: JSON.stringify(sentiment_params),
+              headers: {
+                'Ocp-Apim-Subscription-Key': '9d796f57b3da4b5084913fbd1394cdb4',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              success: function(reply2){
+                var num_pos = 0;
+                var num_neg = 0;
+                var num_neutral = 0;
+                console.log(reply2)
+                reply2['documents'].forEach(function(e) {
+                  if (e['score'] < 0.4) {
+                    num_neg += 1;
+                  } else if (e['score'] >= 0.4 && e['score'] <= 0.6) {
+                    num_neutral += 1;
+                  } else {
+                    num_pos += 1;
+                  }
+                });
+                var ctx = $("#myChart");
+                var data = {
+                  datasets: [{
+                      label: "Analysis Results",
+                      data: [num_neg, num_neutral, num_pos],
+                      backgroundColor:["rgb(255, 99, 132)","rgb(54, 162, 235)","rgb(0, 255, 0)"]
+                  }],
 
-            doCORSRequest({
-              method: 'POST',
-              url: 'http://www.sentiment140.com/api/bulkClassifyJson?appid=alekrzieba@gmail.com',
-              data: sentiment_params
-            }, function printResult(result) {
-              console.log(result);
-            });
+                  // These labels appear in the legend and in the tooltips when hovering different arcs
+                  labels: [
+                      'Negative',
+                      'Neutral',
+                      'Positive'
+                  ]
+              };
+                var myPieChart = new Chart(ctx,{
+                  type: 'doughnut',
+                  data: data,
+                  options: {title: {display: true, text: "Analysis Results", fontSize: 32, fontColor: '#FFF', fontFamily: 'Bree Serif'}, legend: {labels: {fontColor: '#FFF', fontFamily: 'Bree Serif', fontSize: 16}}}
+                });
+              }});
           }
       );
       

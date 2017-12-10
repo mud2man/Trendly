@@ -2,6 +2,9 @@ body {
   margin-top: 1em;
   background-color: #70f;
   font-family: 'Bree Serif', serif;
+  /* source: https://www.reddit.com/r/CityPornGifs/comments/27cg90/the_incredible_view_from_the_hancock_building_in/?utm_term=86fd3be8-ce04-44cc-89b5-802111aa43e3&utm_medium=search&utm_source=reddit&utm_name=CityPornGifs&utm_content=1; */
+  /*background-image: url('index-bg.gif');
+  background-size: cover;*/
 }
 
 .brand {
@@ -24,6 +27,16 @@ body {
   font-family: 'Bree Serif', serif;
   font-size: 2em;
   color: white;
+}
+
+.previous-queries-label {
+  font-family: 'Bree Serif', serif;
+  font-size: 1em;
+  color: white;
+}
+
+#previous-queries {
+  margin-bottom: 1em;
 }
 
 .trend-row {
@@ -91,6 +104,25 @@ a:hover {
 
 #results-content {
   display: none;
+}
+
+#num-analyzed {
+  margin-top: 1em;
+}
+
+#num-positive {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#num-negative {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#num-neutral {
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 
 /* https://www.w3schools.com/howto/howto_css_loader.asp */

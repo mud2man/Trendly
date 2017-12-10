@@ -1,7 +1,9 @@
 $(function() {
   var pills = [
     {pill: $('#sentiment-pill'), div: $('#sentiment')},
-    {pill: $('#geography-pill'), div: $('#geography')}
+    {pill: $('#positive-pill'), div: $('#positive')},
+    {pill: $('#negative-pill'), div: $('#negative')},
+    {pill: $('#neutral-pill'), div: $('#neutral')}
   ];
   pills.forEach(function(e) {
     e['pill'].click(function(event) {
@@ -9,12 +11,13 @@ $(function() {
       if (!e['pill'].hasClass("active")) {
         pills.forEach(function(e2) {
           if (e != e2) {
-            e2['div'].fadeOut();
+            e['pill'].addClass("active");
+            e2['div'].fadeOut(function() {
+              e['div'].fadeIn();
+            });
             e2['pill'].removeClass("active");
           }
         });
-        e['pill'].addClass("active");
-        e['div'].fadeIn();
       }
     });
   });

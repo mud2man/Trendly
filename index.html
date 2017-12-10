@@ -35,6 +35,9 @@
             <div class="form-group">
               <input type="text" class="form-control text-center" id="queryInput"  name='q' placeholder="What would you like to know about?">
             </div>
+            <div id='previous-queries' class='text-center' style='display: none;'>
+              <span class='previous-queries-label'>Previous queries:</span>
+            </div>
             <br />
             <button type="submit" class="btn btn-light btn-lg">Analyze</button>
           </form>
@@ -71,9 +74,32 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script sync src="assets/js.cookie.js"></script>
 
     <!-- More Codebird -->
     <script type="text/javascript">
+
+      var past_queries = Cookies.get('past_queries');
+      console.log(past_queries);
+      var queries;
+      if (past_queries) {
+        queries = JSON.parse(past_queries);
+      } else {
+        queries = [];
+      }
+      var is_first = true;
+      for (var i = 0; i < queries.length; ++i) {
+        if (is_first) {
+          is_first = false;
+        } else {
+          $('#previous-queries').append("<span class='previous-queries-label'>, </span>")
+        }
+        $('#previous-queries').append('<a href="results.html?q=' + queries[i][0] + '">' + queries[i][1] + '</a>');
+      }
+      if (queries.length > 0) {
+        $('#previous-queries').fadeIn();
+      }
+
       var cb = new Codebird;
       cb.setConsumerKey("nDuDRuXVkv3N3GrJiTXm5cXtH", "nnqF5HGuyOURRe2fkcUZpVMTwdGS5xecfQIZvDr5GM2is8PsPr");
       var params = {

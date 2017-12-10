@@ -245,7 +245,17 @@
         return results[1] || 0;
       }
       var raw_query = $.urlParam("q");
+      if (!(raw_query)) {
+        window.location.href = '/index.html';
+      }
       var query = decodeURIComponent(raw_query.replace(/\+/, " "));
+      // https://stackoverflow.com/questions/154059/how-do-you-check-for-an-empty-string-in-javascript
+      function isBlank(str) {
+        return (!str || /^\s*$/.test(str));
+      }
+      if (isBlank(query)) {
+        window.location.href = '/index.html';
+      }
       $('#queryInput-results').val(query);
 
       var past_queries = Cookies.get('past_queries');

@@ -241,10 +241,23 @@
 
       // https://www.sitepoint.com/url-parameters-jquery/
       $.urlParam = function(name){
+        console.log("window.location.href:" + window.location.href);
         var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
         return results[1] || 0;
       }
       var raw_query = $.urlParam("q");
+      var radius = $.urlParam("radius");
+      radius = radius / 1600;
+      var lon = $.urlParam("lon");
+      var lat = $.urlParam("lat");
+      var geocode_query = lat + "," + lon + "," + radius + "mi";
+      console.log("raw_query:" + raw_query);
+      console.log("radius:" + radius);
+      console.log("lon:" + lon);
+      console.log("lat:" + lat);
+      console.log("geocode_query:" + geocode_query);
+      
+      //console.log("r:" + $.urlParam("r"));
       if (!(raw_query)) {
         window.location.href = '/index.html';
       }
@@ -292,14 +305,17 @@
       
       var cb = new Codebird;
       cb.setConsumerKey("nDuDRuXVkv3N3GrJiTXm5cXtH", "nnqF5HGuyOURRe2fkcUZpVMTwdGS5xecfQIZvDr5GM2is8PsPr");
+
       var params = {
         q: query + ' -filter:retweets',
-        //geocode: "40.808127,-73.965864,5mi",
+        //geocode: "40.808127,-73.965864,100mi",
+        geocode: geocode_query,
         count: 100,
         lang: 'en',
         tweet_mode: 'extended',
         result_type: 'mixed'
       };
+      console.log("params.q:" + params.q);
       cb.__call(
           "search_tweets",
           params,

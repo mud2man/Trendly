@@ -17,6 +17,9 @@
 
     <!-- Codebird -->
     <script type="text/javascript" src="assets/codebird.js"></script>
+
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
   </head>
   <body>
 
@@ -301,6 +304,7 @@
         $('#previous-queries').fadeIn();
       }
       fixed_queries.unshift([raw_query, query]);
+      $(document).attr("title", 'Trendly – Analysis for "' + query + '"');
       console.log(fixed_queries);
       Cookies.set('past_queries', JSON.stringify(fixed_queries));
 

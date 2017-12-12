@@ -35,15 +35,15 @@ function get_and_load_sentiment(sentiment_params) {
     var data = {
       datasets: [{
           label: "Analysis Results",
-          data: [num_neg, num_neutral, num_pos],
-          backgroundColor:["rgb(255, 99, 132)","rgb(54, 162, 235)","rgb(0, 255, 0)"]
+          data: [num_pos, num_neutral, num_neg],
+          backgroundColor:["rgb(0, 255, 0)", "rgb(54, 162, 235)", "rgb(255, 99, 132)"]
       }],
 
       // These labels appear in the legend and in the tooltips when hovering different arcs
       labels: [
-          'Negative',
+          'Positive',
           'Neutral',
-          'Positive'
+          'Negative'
       ]
   };
     var myPieChart = new Chart(ctx,{

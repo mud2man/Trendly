@@ -20,31 +20,53 @@
   </head>
   <body>
 
+    <!-- Taken from boilerplate code on Bootstrap website. -->
+    <nav class="navbar navbar-expand-lg">
+      <a class="navbar-brand title-bar" href="index.html">Trendly</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="help.html">Help</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
     <div class="container">
       <div class="row">
         <div class="col-sm">
           <div class='text-center title'>
-            Trendly
+            <a href="index.html" style="color: white; text-decoration: none;">Trendly</a>
           </div>
+          <br />
           <div class='text-center title-small'>
-            Twitter analytics – the smart way.
+            Smart Twitter Analytics
           </div>
           <br />
           <br />
           <form action="results.html" class="text-center">
             <div class="form-group">
-              <input type="text" class="form-control text-center" id="queryInput"  name='q' placeholder="What would you like to know about?">
+              <input type="text" class="form-control text-center" id="queryInput"  name='q' placeholder="Search a Topic">
             </div>
             <div id='previous-queries' class='text-center' style='display: none;'>
               <span class='previous-queries-label'>Previous queries:</span>
             </div>
             <br />
             <button type="submit" class="btn btn-light btn-lg">Analyze</button>
+            <br />
+            <br />
           </form>
           <br />
           <div id='trends' class='row'>
             <div id='trends-label' class='regular-font text-center col-lg-12'>
-              Top Trends
+              Top Trends in the US
             </div>
             <div id='trends-loading' class='regular-font text-center col-lg-12'>
               Loading...
@@ -59,8 +81,17 @@
                 <!-- extra stuff goes here -->
               </div>
             </div>  
-            
           </div>
+        </div>
+      </div>
+      <br />
+      <div class="row text-center regular-font">
+        <div class="col-sm-4">
+        </div>
+        <div class="col-sm-4 text-center">
+          
+        </div>
+        <div class="col-sm-4">
         </div>
       </div>
     </div>
@@ -102,16 +133,6 @@
 
       var cb = new Codebird;
       cb.setConsumerKey("nDuDRuXVkv3N3GrJiTXm5cXtH", "nnqF5HGuyOURRe2fkcUZpVMTwdGS5xecfQIZvDr5GM2is8PsPr");
-      var params = {
-        q: "NYC geocode:37.781157,-122.398720,1mi"
-      };
-      cb.__call(
-          "search_tweets",
-          params,
-          function (reply) {
-              console.log(reply);
-          }
-      );
 
       var params = {
         id: 23424977

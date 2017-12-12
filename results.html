@@ -20,11 +20,29 @@
   </head>
   <body>
 
+    <nav class="navbar navbar-expand-lg">
+      <a class="navbar-brand title-bar" href="index.html">Trendly</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="help.html">Help</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
     <div class="container">
       <div class="row">
         <div class="col-lg-2 col-md-12">
           <div class='text-center title-small brand'>
-            Trendly
+            <a href="index.html" style="color: white; text-decoration: none;">Trendly</a>
           </div>
         </div>
         <div class='col-lg-10 col-md-12'>
@@ -61,7 +79,7 @@
         Hmmm, we can't find any tweets about that!
         <br />
         <br />
-        <span style="font-size: 0.75em;">Please adjust your query and try again.</span>
+        <span style="font-size: 0.75em;">Please adjust your query and try again.<br />If you feel that there should have been results,<br />please check the <a href="help.html" class='white-link'>help page</a> to make sure that<br />your query was formatted properly.</span>
       </div>
       <div id="results-content">
         <nav class="nav nav-pills nav-fill">
@@ -377,7 +395,7 @@
               },
               options: {
                 layout: {padding: 0},
-                title: {display: true, text: "Top Word Frequencies", fontSize: 32, fontColor: '#FFF', fontFamily: 'Bree Serif', padding: 20},
+                title: {display: true, text: "Most Frequent Words", fontSize: 32, fontColor: '#FFF', fontFamily: 'Bree Serif', padding: 20},
                 legend: {display: false, labels: {fontColor: '#FFF', fontFamily: 'Bree Serif', fontSize: 16}},
               scales: {
                 yAxes: [{

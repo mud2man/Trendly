@@ -1,10 +1,8 @@
 body {
-  margin-bottom: 1em;
+  margin-bottom: 2em;
   background-color: #70f;
   font-family: 'Bree Serif', serif;
   /* source: https://www.reddit.com/r/CityPornGifs/comments/27cg90/the_incredible_view_from_the_hancock_building_in/?utm_term=86fd3be8-ce04-44cc-89b5-802111aa43e3&utm_medium=search&utm_source=reddit&utm_name=CityPornGifs&utm_content=1; */
-  /*background-image: url('index-bg.gif');
-  background-size: cover;*/
 }
 
 .brand {
@@ -22,10 +20,14 @@ body {
   font-family: 'Pacifico', cursive;
 }
 .navbar a:hover {
-  color: #f9953e;
+  color: #f9953e !important;
 }
 .navbar a {
-  color: white;
+  color: white !important;
+}
+
+.navbar-togger {
+  background-color: white;
 }
 
 .title-small {

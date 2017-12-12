@@ -63,9 +63,9 @@ function get_and_load_sentiment(sentiment_params) {
       return b['score'] - a['score'];
     });
 
-    $('#num-positive').append(positive_tweets.length + ' positive tweets.');
-    $('#num-negative').append(negative_tweets.length + ' negative tweets.');
-    $('#num-neutral').append(neutral_tweets.length + ' neutral tweets.');
+    $('#num-positive').append(positive_tweets.length + ' Positive Tweets');
+    $('#num-negative').append(negative_tweets.length + ' Negative Tweets');
+    $('#num-neutral').append(neutral_tweets.length + ' Neutral Tweets');
 
     for (var i = 0; i < positive_tweets.length; ++i) {
       var e = positive_tweets[i];

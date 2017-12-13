@@ -91,10 +91,10 @@
         <div id="sentiment" class="row">
           <div class="col-md-12">
             <div id='num-analyzed' class="regular-font text-center">
-          
+
             </div>
             <div id='sentiment-score' class="regular-font text-center">
-              
+
             </div>
           </div>
           <div class="col-md-1">
@@ -119,7 +119,7 @@
           </ul>
           <div class="col-md-12">
             <div id='num-positive' class="regular-font text-center">
-          
+
             </div>
           </div>
           <div class="col-md-3">
@@ -135,7 +135,7 @@
         <div id="negative" class="row" style="display:none;">
           <div class="col-md-12">
             <div id='num-negative' class="regular-font text-center">
-          
+
             </div>
           </div>
           <div class="col-md-3">
@@ -151,7 +151,7 @@
         <div id="neutral" class="row" style="display:none;">
           <div class="col-md-12">
             <div id='num-neutral' class="regular-font text-center">
-          
+
             </div>
           </div>
           <div class="col-md-3">
@@ -167,7 +167,7 @@
       </div>
     </div>
 
-    
+
 
 
 
@@ -189,6 +189,7 @@
     <!-- More Codebird -->
     <script type="text/javascript">
 
+      // did this for ease of syntax and O(1) search complexity
       var commonwords = {
         "": 1,
         the: 1,
@@ -274,11 +275,16 @@
         var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
         return results[1] || 0;
       }
-      var raw_query = $.urlParam("q");
-      if (!(raw_query)) {
-        window.location.href = '/index.html';
+      var raw_query;
+      try {
+        raw_query = $.urlParam("q");
+      } catch (err) {
+        window.location.href = 'index.html';
       }
-      var query = decodeURIComponent(raw_query.replace(/\+/, " "));
+      if (!(raw_query)) {
+        window.location.href = 'index.html';
+      }
+      var query = decodeURIComponent(raw_query.replace(/\+/g, " "));
       // https://stackoverflow.com/questions/154059/how-do-you-check-for-an-empty-string-in-javascript
       function isBlank(str) {
         return (!str || /^\s*$/.test(str));
@@ -320,16 +326,18 @@
       console.log(fixed_queries);
       Cookies.set('past_queries', JSON.stringify(fixed_queries));
 
-      
+
       var cb = new Codebird;
       cb.setConsumerKey("nDuDRuXVkv3N3GrJiTXm5cXtH", "nnqF5HGuyOURRe2fkcUZpVMTwdGS5xecfQIZvDr5GM2is8PsPr");
+      console.log(query);
       var params = {
         q: query + ' -filter:retweets',
         //geocode: "40.808127,-73.965864,5mi",
         count: 100,
         lang: 'en',
         tweet_mode: 'extended',
-        result_type: 'mixed'
+        result_type: 'mixed',
+        place_country: 'us'
       };
       cb.__call(
           "search_tweets",
@@ -355,7 +363,7 @@
             reply["statuses"].forEach(function(e) {
               to_get.push({id: e["id_str"], user: e["user"]["screen_name"]});
               sentiment_params["documents"].push({id: e["id_str"], text: e["full_text"],
-              language: "en" 
+              language: "en"
               });
               var words = e["full_text"].replace(/[.,\/!$%\^&\*"'@;:…{}=\-_`~()]/g," ").toLowerCase().split(" ");
               var querywords = query.replace(/[.,\/!$%\^&\*@;:"'…{}=\-_`~()]/g," ").toLowerCase().split(" ");
@@ -376,7 +384,7 @@
             sortable_words.sort(function(a, b) {
               return b[1] - a[1];
             });
-            
+
             // Word frequencies
             var wordfreqdata = [];
             var wordfreqlabels = [];
@@ -423,7 +431,7 @@
             get_and_load_sentiment(sentiment_params);
           }
       );
-      
+
 
 
 </script>

@@ -51,7 +51,7 @@ function get_and_load_sentiment(sentiment_params) {
       data: data,
       options: {
         layout: {padding: 0},
-        title: {display: true, text: "Sentiment Analysis", fontSize: 32, fontColor: '#FFF', fontFamily: 'Bree Serif', padding: 20},
+        title: {display: true, text: "Sentiment Proportions", fontSize: 32, fontColor: '#FFF', fontFamily: 'Bree Serif', padding: 20},
         legend: {labels: {fontColor: '#FFF', fontFamily: 'Bree Serif', fontSize: 16}}
       }
     });
@@ -66,7 +66,7 @@ function get_and_load_sentiment(sentiment_params) {
     $('#num-positive').append(positive_tweets.length + ' Positive Tweets');
     $('#num-negative').append(negative_tweets.length + ' Negative Tweets');
     $('#num-neutral').append(neutral_tweets.length + ' Neutral Tweets');
-    $('#sentiment-score').append("Positivity Score: " + Math.round(score * 100) / 100 + " out of " + reply2['documents'].length);
+    $('#sentiment-score').append("Overall Positivity Score: " + Math.round(score * 100 / reply2['documents'].length * 100) / 100 + "%");
 
     for (var i = 0; i < positive_tweets.length; ++i) {
       var e = positive_tweets[i];
@@ -88,7 +88,7 @@ function get_and_load_sentiment(sentiment_params) {
         })
       .then (function (el) {
       });
-      tweet_container.prepend('Score: ' + e['score']);
+      tweet_container.prepend('Positivity: ' + Math.round(e['score'] * 100 * 100) / 100 + "%" );
     }
 
     for (var i = 0; i < negative_tweets.length; ++i) {
@@ -111,7 +111,7 @@ function get_and_load_sentiment(sentiment_params) {
         })
       .then (function (el) {
       });
-      tweet_container.prepend('Score: ' + e['score']);
+      tweet_container.prepend('Positivity: ' + Math.round(e['score'] * 100 * 100) / 100 + "%" );
     }
 
     for (var i = 0; i < neutral_tweets.length; ++i) {
@@ -134,7 +134,7 @@ function get_and_load_sentiment(sentiment_params) {
         })
       .then (function (el) {
       });
-      tweet_container.prepend('Score: ' + e['score']);
+      tweet_container.prepend('Positivity: ' + Math.round(e['score'] * 100 * 100) / 100 + "%" );
     }
 
     $("#results-loading").fadeOut(function() {

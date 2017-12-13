@@ -49,7 +49,7 @@
           <br />
           <form action="results.html">
             <div class="input-group">
-              <input type="text" class="form-control text-center" id="queryInput-results" name='q' placeholder="What would you like to know about?">
+              <input type="text" class="form-control text-center" id="queryInput-results" name='q' placeholder="Search for a Topic">
             </div>
           </form>
         </div>
@@ -93,6 +93,9 @@
             <div id='num-analyzed' class="regular-font text-center">
           
             </div>
+            <div id='sentiment-score' class="regular-font text-center">
+              
+            </div>
           </div>
           <div class="col-md-1">
           </div>
@@ -106,6 +109,14 @@
           </div>
         </div>
         <div id="positive" class="row" style="display:none;">
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">descending</a>
+            <a class="dropdown-item" href="#">ascending</a>
+          </div>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">descending</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">ascending</a></li>
+          </ul>
           <div class="col-md-12">
             <div id='num-positive' class="regular-font text-center">
           
@@ -177,6 +188,7 @@
 
     <!-- More Codebird -->
     <script type="text/javascript">
+
       var commonwords = {
         "": 1,
         the: 1,

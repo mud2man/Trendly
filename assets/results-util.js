@@ -35,15 +35,15 @@ function get_and_load_sentiment(sentiment_params) {
     var data = {
       datasets: [{
           label: "Analysis Results",
-          data: [num_pos, num_neutral, num_neg],
-          backgroundColor:["rgb(0, 255, 0)", "rgb(54, 162, 235)", "rgb(255, 99, 132)"]
+          data: [num_pos, num_neg, num_neutral],
+          backgroundColor:["rgb(0, 255, 0)", "rgb(255, 99, 132)", "rgb(54, 162, 235)"]
       }],
 
       // These labels appear in the legend and in the tooltips when hovering different arcs
       labels: [
           'Positive',
-          'Neutral',
-          'Negative'
+          'Negative',
+          'Neutral'
       ]
   };
     var myPieChart = new Chart(ctx,{
@@ -60,17 +60,21 @@ function get_and_load_sentiment(sentiment_params) {
       return b['score'] - a['score'];
     });
     negative_tweets.sort(function(a, b) {
-      return b['score'] - a['score'];
+      return a['score'] - b['score'];
     });
 
     $('#num-positive').append(positive_tweets.length + ' Positive Tweets');
     $('#num-negative').append(negative_tweets.length + ' Negative Tweets');
     $('#num-neutral').append(neutral_tweets.length + ' Neutral Tweets');
+    $('#sentiment-score').append("Positivity Score: " + Math.round(score * 100) / 100 + " out of " + reply2['documents'].length);
 
     for (var i = 0; i < positive_tweets.length; ++i) {
       var e = positive_tweets[i];
-      $('#positive-tweets').append('<div id="tweet' + e['id'] + '"></div>');
+      $('#positive-tweets').append('<div id="tweet' + e['id'] + '-container" class="text-center bree">  </div>');
+      var tweet_container = $('#tweet' + e['id'] + '-container');
+      tweet_container.append('<div id="tweet' + e['id'] + '"></div><br />');
       var tweet = document.getElementById("tweet" + e['id']);
+      console.log(tweet);
       var id = e['id'];
 
       twttr.widgets.createTweet(
@@ -82,13 +86,18 @@ function get_and_load_sentiment(sentiment_params) {
           theme        : 'light',    // or dark
           width: 550
         })
-      .then (function (el) {});
+      .then (function (el) {
+      });
+      tweet_container.prepend('Score: ' + e['score']);
     }
 
     for (var i = 0; i < negative_tweets.length; ++i) {
       var e = negative_tweets[i];
-      $('#negative-tweets').append('<div id="tweet' + e['id'] + '"></div>');
+      $('#negative-tweets').append('<div id="tweet' + e['id'] + '-container" class="text-center bree">  </div>');
+      var tweet_container = $('#tweet' + e['id'] + '-container');
+      tweet_container.append('<div id="tweet' + e['id'] + '"></div><br />');
       var tweet = document.getElementById("tweet" + e['id']);
+      console.log(tweet);
       var id = e['id'];
 
       twttr.widgets.createTweet(
@@ -100,13 +109,18 @@ function get_and_load_sentiment(sentiment_params) {
           theme        : 'light',    // or dark
           width: 550
         })
-      .then (function (el) {});
+      .then (function (el) {
+      });
+      tweet_container.prepend('Score: ' + e['score']);
     }
 
     for (var i = 0; i < neutral_tweets.length; ++i) {
       var e = neutral_tweets[i];
-      $('#neutral-tweets').append('<div id="tweet' + e['id'] + '"></div>');
+      $('#neutral-tweets').append('<div id="tweet' + e['id'] + '-container" class="text-center bree">  </div>');
+      var tweet_container = $('#tweet' + e['id'] + '-container');
+      tweet_container.append('<div id="tweet' + e['id'] + '"></div><br />');
       var tweet = document.getElementById("tweet" + e['id']);
+      console.log(tweet);
       var id = e['id'];
 
       twttr.widgets.createTweet(
@@ -118,7 +132,9 @@ function get_and_load_sentiment(sentiment_params) {
           theme        : 'light',    // or dark
           width: 550
         })
-      .then (function (el) {});
+      .then (function (el) {
+      });
+      tweet_container.prepend('Score: ' + e['score']);
     }
 
     $("#results-loading").fadeOut(function() {

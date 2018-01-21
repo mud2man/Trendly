@@ -4,11 +4,11 @@ function get_and_load_sentiment(sentiment_params) {
   var negative_tweets = [];
   var neutral_tweets = [];
   $.ajax({
-  url: 'https://cors-anywhere.herokuapp.com/https://eastus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment',
+  url: 'https://cors-anywhere.herokuapp.com/https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment',
   method: 'post',
   data: JSON.stringify(sentiment_params),
   headers: {
-    'Ocp-Apim-Subscription-Key': '9d796f57b3da4b5084913fbd1394cdb4',
+    'Ocp-Apim-Subscription-Key': '19f499222da04bae8d23c6416c42c56b',
     'Content-Type': 'application/json',
     'Accept': 'application/json'
   },
@@ -17,7 +17,8 @@ function get_and_load_sentiment(sentiment_params) {
     var num_neg = 0;
     var num_neutral = 0;
     var score = 0;
-    console.log(reply2)
+    console.log("reply2");
+    console.log(reply2);
     reply2['documents'].forEach(function(e) {
       score += e['score'];
       if (e['score'] < 0.5) {
